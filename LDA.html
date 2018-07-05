@@ -1,0 +1,143 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>getJSON获取数据</title>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.0/jquery.min.js"></script>
+    <script type="text/javascript">
+    function reinitIframe(){
+            var iframe = document.getElementById("LDA_code");
+            try{
+            var bHeight = iframe.contentWindow.document.body.scrollHeight;
+            var dHeight = iframe.contentWindow.document.documentElement.scrollHeight;
+            var height = Math.max(bHeight, dHeight);
+            iframe.height = height;
+            console.log(height);
+            }catch (ex){}
+            }
+            window.setInterval("reinitIframe()", 200);
+</script>
+<style type="text/css">
+ #divframe{ 
+     border:0px solid #999; 
+     width:100%; margin:0 auto;height:100%;}
+ .loadTitle{ 
+    background:#CCC; height:100%;
+    }
+.content{ 
+    background:#CCC; height:100%;
+    background-color: #90d7ec;
+    box-shadow:inset 1px -1px 1px #444, inset -1px 1px 1px #444;}
+ .controlBox{display:inline;}
+</style>
+<script type="text/javascript">
+$(function(){
+    var path = "./files/doc_json.json"
+	$("#btn").click(function(){
+        var choice = $("#input_No").val();
+        choice = parseInt(choice)
+        $.getJSON(path,function(data){
+			var $jsontip = $("#jsonTip");
+			var strHtml = "";//存储数据的变量
+			$jsontip.empty();//清空内容
+			$.each(data,function(infoIndex,info){
+                
+                if(infoIndex==choice){
+				  strHtml += "Content："+ info["content"] +"<br>";
+				  
+				  
+                    }
+				})
+			$jsontip.html(strHtml);//显示处理后的数据	
+			})
+		})
+    $("#input_No").keypress(function(e){
+        if(e.which == 13){//Enter key pressed
+            var choice = $("#input_No").val();
+            choice = parseInt(choice)
+            $.getJSON(path,function(data){
+                var $jsontip = $("#jsonTip");
+                var strHtml = "";//存储数据的变量
+                $jsontip.empty();//清空内容
+                $.each(data,function(infoIndex,info){
+
+                    if(infoIndex==choice){
+                      strHtml += "Content："+ info["content"] +"<br>";
+
+                      
+                        }
+                    })
+                $jsontip.html(strHtml);//显示处理后的数据	
+                })
+        }
+    })
+	})
+</script>
+</head>
+ 
+<body>
+            
+            <div id = "LDA" class="col-md-12">
+                <h1>Latent Dirichlet Allocation</h1>
+                Latent Dirichlet Allocation (LDA) is firstly introduced in <a href="http://www.jmlr.org/papers/volume3/blei03a/blei03a.pdf">this paper</a>. It is widely used in documente classification. The graphic representation of LDA is shown below.<br /><br />
+                <div style="text-align:center">
+                    <img   width="80%"  src="/Figure/LDA.png">
+                </div> 
+            </div>
+            <div id = "LDA" class="col-md-12">
+                <h1>20 Newsgroups dataset</h1>
+                20 Newsgroups dataset is got from <a href="http://qwone.com/~jason/20Newsgroups/">here</a>. It is a famous benchmark dataset for document classification algorithms. It contains 11314 documents that extracted from 20 topics.<br /><br />
+                <div style="text-align:center" class="col-md-12">
+                    
+                    <figure>
+                        <img   width="70%"  src="/Figure/20_news.png">
+                        <figcaption>Fig.1 Topics of 20 newsgroups dataset. Some of the topics may be samiliar.</figcaption>
+                    </figure>
+                </div> 
+            <div class="row" >
+                
+                    
+            <div id="divframe" class="col-md-12">
+              <div class="loadTitle">
+                <p class = 'controlBox'> Choose the n-th document to display (range from 0 to 11313):</p>
+                <input id="input_No" type="text" value="0" style="width: 100px;"  class = 'controlBox' />
+                <input type="button" value="获取数据" id="btn"  class = 'controlBox'/>
+
+              </div>
+              <div id="jsonTip" class="content">
+              </div>
+            </div>
+                    
+                
+                
+                
+            </div>
+               <br />
+                <p> The documents from the dataset need to preprocessed before employing LDA algorithm. </p>
+                
+                
+                <div id="disp"></div> 
+                
+                <div style="text-align:center" class="col-md-12">
+                    
+                    <figure>
+                        <img   width="80%"  src="/Figure/sparse_matrix.png">
+                        <figcaption>Fig.2 Preporcess of the documents in the dataset -- Using sparse matrix represent the document.</figcaption>
+                    </figure>
+                </div> 
+            </div> 
+            
+                <div id = "ipython_LDA" class="col-md-8">
+                    <iframe id = "LDA_code" scrolling="no" frameborder=0 src="http://nbviewer.jupyter.org/github/zhuzhikun15973/python/blob/master/LDA.ipynb" width = "100%" height = "3000px"></iframe>
+       
+                </div>
+                
+                <div id = "LDA_col2" class="col-md-4">
+                    
+       
+                </div>
+            
+            
+</body>
+</html>
+
